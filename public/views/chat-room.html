@@ -1,0 +1,53 @@
+<div class="row" ng-init="getChatRoomByChatListID()">
+    <div class="col-md-offset-2 col-md-8 col-sm-12">
+        <div class="panel panel-info">
+            <div class="panel-heading text-center" ng-if="aRootScope.identity.id == chatList.companion._id">
+                {{chatList.initiator.name}}
+            </div>
+            <div class="panel-heading text-center" ng-if="aRootScope.identity.id == chatList.initiator._id">
+                {{chatList.companion.name}}
+            </div>
+            <div class="panel-body chat-box-main" ng-style="resizeChatBoxMainHeight()" resize-chat scroll-chat="chatRoom">
+                <div ng-repeat="chat in chatRoom">
+                    <div class="chat-box-item chat-box-item-right" ng-if="aRootScope.identity.id == chat.creator">
+                        <div class="chat-box v-align" ng-style="resizeChatBoxWidth()" resize-chat>{{chat.message}}</div>
+                        <div ng-if="chat.creator == chatList.initiator._id" class="chat-box-name v-align top-align">
+                            <img ng-if="chatList.initiator.picture" ng-src="{{chatList.initiator.picture}}" ng-alt="{{chatList.initiator.name}}" class="img-circle">
+                            <img ng-if="!chatList.initiator.picture" ng-src="../images/profile_picture_default.jpg" ng-alt="{{chatList.initiator.name}}" class="img-circle">
+                            <div class="talker">{{chatList.initiator.name}}</div>
+                        </div>
+                        <div ng-if="chat.creator == chatList.companion._id" class="chat-box-name v-align top-align">
+                            <img ng-if="chatList.companion.picture" ng-src="{{chatList.companion.picture}}" ng-alt="{{chatList.companion.name}}" class="img-circle">
+                            <img ng-if="!chatList.companion.picture" ng-src="../images/profile_picture_default.jpg" ng-alt="{{chatList.companion.name}}" class="img-circle">
+                            <div class="talker">{{chatList.companion.name}}</div>
+                        </div>
+                        <div class="text-center">{{chat.created_at | date: 'yyyy-MM-dd HH:mm:ss'}}</div>
+                    </div>
+                    <div class="chat-box-item chat-box-item-left" ng-if="aRootScope.identity.id != chat.creator">
+                        <div ng-if="chat.creator == chatList.initiator._id" class="chat-box-name v-align top-align">
+                            <img ng-if="chatList.initiator.picture" ng-src="{{chatList.initiator.picture}}" ng-alt="{{chatList.initiator.name}}" class="img-circle">
+                            <img ng-if="!chatList.initiator.picture" ng-src="../images/profile_picture_default.jpg" ng-alt="{{chatList.initiator.name}}" class="img-circle">
+                            <div class="talker">{{chatList.initiator.name}}</div>
+                        </div>
+                        <div ng-if="chat.creator == chatList.companion._id" class="chat-box-name v-align top-align">
+                            <img ng-if="chatList.companion.picture" ng-src="{{chatList.companion.picture}}" ng-alt="{{chatList.companion.name}}" class="img-circle">
+                            <img ng-if="!chatList.companion.picture" ng-src="../images/profile_picture_default.jpg" ng-alt="{{chatList.companion.name}}" class="img-circle">
+                            <div class="talker">{{chatList.companion.name}}</div>
+                        </div>
+                        <div class="chat-box v-align" ng-style="resizeChatBoxWidth()" resize-chat>{{chat.message}}</div>
+                        <div class="text-center">{{chat.created_at | date: 'yyyy-MM-dd HH:mm:ss'}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-box-footer">
+                <form class="input-group" ng-submit="chatRoomForm.$valid && chatRoomFormSubmit()" name="chatRoomForm" novalidate>
+                    <input type="text" placeholder="Let's Chat...." class="form-control" ng-model="chat.message" required>
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-info" ng-disabled="chatRoomForm.$invalid">Send</button>
+                    </span>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

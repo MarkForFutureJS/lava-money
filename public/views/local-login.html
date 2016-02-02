@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-md-offset-3 col-md-6 col-sm-12">
+        <h1>Local Login</h1>
+        <form ng-submit="this[localLoginFormName].$valid && localLoginFormSubmit()" name="{{localLoginFormName}}" novalidate>
+            <div class="form-group required" ng-form="{{emailFieldName}}" ng-class="{
+                'has-success': {{emailFieldName}}.$valid && (!{{emailFieldName}}.$pristine || {{localLoginFormName}}.$submitted),
+                'has-error': {{emailFieldName}}.$invalid && (!{{emailFieldName}}.$pristine || {{localLoginFormName}}.$submitted)
+            }">
+                <label for="{{emailFieldName}}">{{emailFieldName | label}}</label>
+                <input type="text" placeholder="{{emailFieldName | label}}" class="form-control" name="{{emailFieldName}}" ng-model="user.email" required validate-email>
+                <div class="error-messages" ng-messages="this[emailFieldName].$error" ng-show="
+                    {{emailFieldName}}.$invalid && (!{{emailFieldName}}.$pristine || {{localLoginFormName}}.$submitted)
+                ">
+                    <div ng-messages-include="error-messages.html"></div>
+                </div>
+            </div>
+            <div class="form-group required" ng-form="{{passwordFieldName}}" ng-class="{
+                'has-success': {{passwordFieldName}}.$valid && (!{{passwordFieldName}}.$pristine || {{localLoginFormName}}.$submitted),
+                'has-error': {{passwordFieldName}}.$invalid && (!{{passwordFieldName}}.$pristine || {{localLoginFormName}}.$submitted)
+            }">
+                <label for="{{passwordFieldName}}">{{passwordFieldName | label}}</label>
+                <input type="password" placeholder="{{passwordFieldName | label}}" class="form-control" name="{{passwordFieldName}}" ng-model="user.password" required>
+                <div class="error-messages" ng-messages="this[passwordFieldName].$error" ng-show="
+                    {{passwordFieldName}}.$invalid && (!{{passwordFieldName}}.$pristine || {{localLoginFormName}}.$submitted)
+                ">
+                    <div ng-messages-include="error-messages.html"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <a ui-sref="layout.forget-password">Forget Passowrd</a>
+            </div>
+            <button type="submit" class="btn btn-warning btn-lg btn-block" ng-disabled="
+                ({{localLoginFormName}}.$valid && {{localLoginFormName}}.$submitted)
+                ||
+                {{localLoginFormName}}.$pristine
+                ||
+                {{localLoginFormName}}.$invalid
+            ">
+                Submit
+            </button>
+            <a href="/api/login-facebook" class="btn btn-primary btn-lg btn-block" role="button">
+                Login Facebook
+            </a>
+        </form>
+    </div>
+</div>

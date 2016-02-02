@@ -1,0 +1,36 @@
+<div ng-init="getDashboardUsers(); getAllHobbies(); getAllChatList();">
+    <div ng-if="users.length > 0">
+        <div ng-if="hobbies.length > 0">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="pointer panel-title text-center" ng-click="filterUserByHobby()">
+                        Hobbies
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <a class="btn btn-link hobby" ng-repeat="hobby in hobbies">
+                        <mark ng-click="filterUserByHobby(hobby)">{{hobby}}</mark>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="user in users | orderBy: 'created_at'">
+                <div class="thumbnail">
+                    <img width="100%" ng-if="user.picture" ng-src="{{user.picture}}" ng-alt="{{user.name}}" same-height>
+                    <img width="100%" ng-if="!user.picture" ng-src="../images/profile_picture_default.jpg" ng-alt="{{user.name}}" same-height>
+                    <div class="caption text-center">
+                        <h4 class="talker">
+                            {{user.name}}
+                            <span ng-if="user.gender">
+                                <span ng-if="user.gender === 'female'" class="glyphicon glyphicon-queen" aria-hidden="true"></span>
+                                <span ng-if="user.gender === 'male'" class="glyphicon glyphicon-king" aria-hidden="true"></span>
+                            </span>
+                        </h4>
+                        <button type="button" class="btn btn-primary" ng-click="createChatList(user._id, $event)" dashboard-button user="user" identity="aRootScope.identity" chat-list="chatList">Let's Chat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

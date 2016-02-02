@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-md-offset-3 col-md-6 col-sm-12">
+        <h1>Local Signup</h1>
+        <form ng-submit="this[localSignupFormName].$valid && localSignupFormSubmit()" name="{{localSignupFormName}}" novalidate>
+            <div class="form-group required" ng-form="{{emailFieldName}}" ng-class="{
+                'has-success': {{emailFieldName}}.$valid && (!{{emailFieldName}}.$pristine || {{localSignupFormName}}.$submitted),
+                'has-error': {{emailFieldName}}.$invalid && (!{{emailFieldName}}.$pristine || {{localSignupFormName}}.$submitted)
+            }">
+                <label for="{{emailFieldName}}">{{emailFieldName | label}}</label>
+                <input type="text" placeholder="{{emailFieldName | label}}" class="form-control" name="{{emailFieldName}}" ng-model="user.email" required validate-email unique="true">
+                <div class="error-messages" ng-messages="this[emailFieldName].$error" ng-show="
+                    {{emailFieldName}}.$invalid && (!{{emailFieldName}}.$pristine || {{localSignupFormName}}.$submitted)
+                ">
+                    <div ng-messages-include="error-messages.html"></div>
+                </div>
+            </div>
+            <div class="form-group required" ng-form="{{passwordFieldName}}" ng-class="{
+                'has-success': {{passwordFieldName}}.$valid && (!{{passwordFieldName}}.$pristine || {{localSignupFormName}}.$submitted),
+                'has-error': {{passwordFieldName}}.$invalid && (!{{passwordFieldName}}.$pristine || {{localSignupFormName}}.$submitted)
+            }">
+                <label for="{{passwordFieldName}}">{{passwordFieldName | label}}</label>
+                <input type="password" placeholder="{{passwordFieldName | label}} Length 6 ~ 12" class="form-control" name="{{passwordFieldName}}" ng-model="user.password" required ng-maxlength="12" ng-minlength="6">
+                <div class="error-messages" ng-messages="this[passwordFieldName].$error" ng-show="
+                    {{passwordFieldName}}.$invalid && (!{{passwordFieldName}}.$pristine || {{localSignupFormName}}.$submitted)
+                ">
+                    <div ng-messages-include="error-messages.html"></div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-warning btn-lg btn-block" ng-disabled="
+                ({{localSignupFormName}}.$valid && {{localSignupFormName}}.$submitted)
+                ||
+                {{localSignupFormName}}.$pristine
+                ||
+                {{localSignupFormName}}.$invalid
+            ">
+                Submit
+            </button>
+        </form>
+    </div>
+</div>

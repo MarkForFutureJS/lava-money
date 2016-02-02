@@ -1,0 +1,69 @@
+<div ng-init="getChatList()">
+    <uib-tabset justified="true">
+        <uib-tab heading="Name" select="resetName()">
+            <div class="search-tab form-group">
+                <input id="search-name" type="text" placeholder="Search Name...." class="form-control" ng-model="name" ng-change="searchName(name)">
+            </div>
+        </uib-tab>
+        <uib-tab heading="Gender" select="resetGender()">
+            <div class="search-tab form-group">
+                <select id="search-gender" class="form-control" ng-model="gender" ng-change="searchGender(gender)">
+                    <option value="">Search Gender....</option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                </select>
+            </div>
+        </uib-tab>
+        <uib-tab heading="Hobbies" select="resetHobbies()">
+            <div class="search-tab panel panel-default">
+                <div class="panel-body">
+                    <a class="btn btn-link hobby" ng-repeat="hobby in hobbies">
+                        <mark ng-click="searchHobby(hobby)">{{hobby}}</mark>
+                    </a>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="chat in chatList | orderBy: 'created_at'">
+            <div class="thumbnail" ng-if="chat.initiator._id == aRootScope.identity.id">
+                <img width="100%" ng-if="chat.companion.picture" ng-src="{{chat.companion.picture}}" ng-alt="{{chat.companion.name}}" same-height>
+                <img width="100%" ng-if="!chat.companion.picture" ng-src="../images/profile_picture_default.jpg" ng-alt="{{chat.companion.name}}" same-height>
+                <div class="caption text-center">
+                    <h4 class="talker">
+                        {{chat.companion.name}}
+                        <span ng-if="chat.companion.gender">
+                            <span ng-if="chat.companion.gender === 'female'" class="glyphicon glyphicon-queen" aria-hidden="true"></span>
+                            <span ng-if="chat.companion.gender === 'male'" class="glyphicon glyphicon-king" aria-hidden="true"></span>
+                        </span>
+                    </h4>
+                    <a class="btn btn-warning disabled" role="button" ng-if="chat.decision_status == 0">
+                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Pending
+                    </a>
+                    <a class="btn btn-primary" role="button" ui-sref="layout.chat-room({id: chat._id})" ng-if="chat.decision_status == 1">
+                        Chat Room
+                    </a>
+                </div>
+            </div>
+            <div class="thumbnail" ng-if="chat.companion._id == aRootScope.identity.id">
+                <img width="100%" ng-if="chat.initiator.picture" ng-src="{{chat.initiator.picture}}" ng-alt="{{chat.initiator.name}}" same-height>
+                <img width="100%" ng-if="!chat.initiator.picture" ng-src="../images/profile_picture_default.jpg" ng-alt="{{chat.initiator.name}}" same-height>
+                <div class="caption text-center">
+                    <h4 class="talker">
+                        {{chat.initiator.name}}
+                        <span ng-if="chat.initiator.gender">
+                            <span ng-if="chat.initiator.gender === 'female'" class="glyphicon glyphicon-queen" aria-hidden="true"></span>
+                            <span ng-if="chat.initiator.gender === 'male'" class="glyphicon glyphicon-king" aria-hidden="true"></span>
+                        </span>
+                    </h4>
+                    <a class="btn btn-success" role="button" ng-if="chat.decision_status == 0" ng-click="approveChatList(chat._id)">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Approve
+                    </a>
+                    <a class="btn btn-primary" role="button" ui-sref="layout.chat-room({id: chat._id})" ng-if="chat.decision_status == 1">
+                        Chat Room
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

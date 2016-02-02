@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="col-xs-12">
+        <h1>Profile</h1>
+        <div class="row">
+            <div class="col-sm-12 col-md-4">
+                <div class="thumbnail">
+                    <img width="100%" ng-if="aRootScope.identity.picture" ng-src="{{aRootScope.identity.picture}}" ng-alt="{{aRootScope.identity.name}}">
+                    <img width="100%" ng-if="!aRootScope.identity.picture" ng-src="../images/profile_picture_default.jpg" ng-alt="{{aRootScope.identity.name}}">
+                    <div class="caption"><h2 class="talker">{{aRootScope.identity.localEmail}}</h2></div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-8">
+                <form ng-submit="this[profileFormName].$valid && profileFormSubmit(pictureModel)" name="{{profileFormName}}" novalidate>
+                    <div class="form-group required" ng-form="{{nameFieldName}}" ng-class="{
+                        'has-success': {{nameFieldName}}.$valid && (!{{nameFieldName}}.$pristine || {{profileFormName}}.$submitted),
+                        'has-error': {{nameFieldName}}.$invalid && (!{{nameFieldName}}.$pristine || {{profileFormName}}.$submitted)
+                    }">
+                        <label for="{{nameFieldName}}">{{nameFieldName | label}}</label>
+                        <input type="text" placeholder="{{nameFieldName | label}}" class="form-control" name="{{nameFieldName}}" ng-model="user.name" required>
+                        <div class="error-messages" ng-messages="this[nameFieldName].$error" ng-show="
+                            {{nameFieldName}}.$invalid && (!{{nameFieldName}}.$pristine || {{profileFormName}}.$submitted)
+                        ">
+                            <div ng-messages-include="error-messages.html"></div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-form="{{genderFieldName}}" ng-class="{
+                        'has-success': {{genderFieldName}}.$valid && (!{{genderFieldName}}.$pristine || {{profileFormName}}.$submitted),
+                        'has-error': {{genderFieldName}}.$invalid && (!{{genderFieldName}}.$pristine || {{profileFormName}}.$submitted)
+                    }">
+                        <label for="{{genderFieldName}}">{{genderFieldName | label}}</label>
+                        <div class="radio profile-radio">
+                            <label>
+                                <input type="radio" name="{{genderFieldName}}" value="female" ng-model="user.gender"> Female
+                            </label>
+                        </div>
+                        <div class="radio profile-radio">
+                            <label>
+                                <input type="radio" name="{{genderFieldName}}" value="male" ng-model="user.gender"> Male
+                            </label>
+                        </div>
+                        <div class="error-messages" ng-messages="this[genderFieldName].$error" ng-show="
+                            {{genderFieldName}}.$invalid && (!{{genderFieldName}}.$pristine || {{profileFormName}}.$submitted)
+                        ">
+                            <div ng-messages-include="error-messages.html"></div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-form="{{hobbiesFieldName}}" ng-class="{
+                        'has-success': {{hobbiesFieldName}}.$valid && (!{{hobbiesFieldName}}.$pristine || {{profileFormName}}.$submitted),
+                        'has-error': {{hobbiesFieldName}}.$invalid && (!{{hobbiesFieldName}}.$pristine || {{profileFormName}}.$submitted)
+                    }">
+                        <label for="{{hobbiesFieldName}}">{{hobbiesFieldName | label}}</label>
+                        <tags-input type="text" placeholder="{{hobbiesFieldName | label}}" name="{{hobbiesFieldName}}" ng-model="user.hobbies" min-length="1" key-property="hobby" display-property="hobby">
+                        <div class="error-messages" ng-messages="this[hobbiesFieldName].$error" ng-show="
+                            {{hobbiesFieldName}}.$invalid && (!{{hobbiesFieldName}}.$pristine || {{profileFormName}}.$submitted)
+                        ">
+                            <div ng-messages-include="error-messages.html"></div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-form="{{pictureFieldName}}" ng-class="{
+                        'has-success': {{pictureFieldName}}.$valid && (!{{pictureFieldName}}.$pristine || {{profileFormName}}.$submitted),
+                        'has-error': {{pictureFieldName}}.$invalid && (!{{pictureFieldName}}.$pristine || {{profileFormName}}.$submitted)
+                    }">
+                        <label for="{{pictureFieldName}}">{{pictureFieldName | label}}</label>
+                        <input type="file" placeholder="{{pictureFieldName | label}}" name="{{pictureFieldName}}" ng-model="pictureModel" ngf-select ngf-accept="'image/*'" ngf-pattern="'image/*'" ngf-max-size="2MB" ngf-model-invalid="errorFiles">
+                        <div class="error-messages" ng-show="{{pictureFieldName}}.$invalid">
+                            <p ng-show="this[pictureFieldName].$error.maxSize">
+                                This file is not a valid file size
+                            </p>
+                        </div>
+                    </div>
+                    <a href="/api/connect-facebook" class="btn btn-primary btn-lg btn-block" role="button" ng-if="!aRootScope.identity.facebook">
+                        Connect Facebook
+                    </a>
+                    <a class="btn btn-danger btn-lg btn-block" role="button" ng-click="disconnectFacebook()" ng-if="aRootScope.identity.facebook">
+                        Disconnect Facebook
+                    </a>
+                    <button type="submit" class="btn btn-warning btn-lg btn-block" ng-disabled="
+                        ({{profileFormName}}.$valid && {{profileFormName}}.$submitted)
+                        ||
+                        {{profileFormName}}.$pristine
+                        ||
+                        {{profileFormName}}.$invalid
+                    ">
+                        Submit
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
