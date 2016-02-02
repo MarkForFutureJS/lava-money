@@ -71,6 +71,7 @@ angular.module('aRouter', ['ui.router', 'MainController', 'UserController', 'Cha
                 views: {
                     'container@': {
                         controller: 'SuccessController',
+                        templateUrl: 'views/temporary.html',
                         resolve: {
                             stateNames: getStateNames
                         }
@@ -82,6 +83,7 @@ angular.module('aRouter', ['ui.router', 'MainController', 'UserController', 'Cha
                 views: {
                     'container@': {
                         controller: 'ErrorController',
+                        templateUrl: 'views/temporary.html',
                         resolve: {
                             stateNames: getStateNames
                         }

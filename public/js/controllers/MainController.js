@@ -11,7 +11,11 @@ angular.module('MainController', ['UserFactory'])
 		};
 	})
 	.controller('SuccessController', function($timeout, $scope, $state, $stateParams, stateNames, toasty) {
+		$scope.loading = true;
+
 		$timeout(function() {
+			$scope.loading = false;
+
 			if ($stateParams.url && $stateParams.url !== 'layout.success' && stateNames.indexOf($stateParams.url) > -1) {
 				$state.go($stateParams.url)
 					.then(function() {
@@ -24,10 +28,14 @@ angular.module('MainController', ['UserFactory'])
 			} else {
 				$state.go('layout.home');
 			}
-		});
+		}, 3000);
 	})
 	.controller('ErrorController', function($timeout, $scope, $state, $stateParams, stateNames, toasty) {
+		$scope.loading = true;
+
 		$timeout(function() {
+			$scope.loading = false;
+
 			if ($stateParams.url && $stateParams.url !== 'layout.error' && stateNames.indexOf($stateParams.url) > -1) {
 				$state.go($stateParams.url)
 					.then(function() {
@@ -41,5 +49,5 @@ angular.module('MainController', ['UserFactory'])
 			} else {
 				$state.go('layout.home');
 			}
-		});
+		}, 3000);
 	});
